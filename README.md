@@ -41,7 +41,7 @@ These are the steps you'll need to take to get up and running with this reposito
         * If you're on a Raspberry Pi 3 B+ and running bash
 
                 cd ~/Downloads/HoundCpp
-                nohup bash -c 'make -j 4' > ../makelog 2>&1 & disown
+                nohup bash -c 'make -j 2' > ../makelog 2>&1 & disown
 
 3. Obtain the "Ok Hound" phrase spotter
     * A. If you're running Linux x86-64 follow these instructions
