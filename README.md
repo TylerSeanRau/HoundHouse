@@ -49,7 +49,7 @@ These are the steps you'll need to take to get up and running with this reposito
 
                 mkdir -p ~/Downloads/HoundHouse/OkHound/linux-x86_64
 
-        1. Download the ""Ok Hound" Phrase Spotter for Node.js Linux x86-64 (1.0.0)" from the Houndify [Javascript SDKs page](https://www.houndify.com/sdks#javascript)
+        1. Download the **"Ok Hound" Phrase Spotter for Node.js Linux x86-64 (1.0.0)** from the Houndify [Javascript SDKs page](https://www.houndify.com/sdks#javascript)
             * **DO NOT DOWNLOAD TO THE DIRECTORY YOU CREATED IN 3.A.1**
 
         2. Extract the file you just downloaded
