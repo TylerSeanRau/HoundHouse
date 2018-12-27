@@ -1,9 +1,9 @@
 # HoundHouse
 This is a C++ client that interfaces with the [Houndify](http://houndify.com) platform and is meant to be run on a Raspberry Pi 3 B+ running Ubuntu 18.04 LTS.
 
-I personally work on this repository via Elementary OS 5.0 (which runs Ubuntu 18.04 LTS under the hood) on a Dell XPS 13 9370. In addition I'm also using a handful of my personal Rasberry Pi 3 B+s that are running Ubuntu 18.04 LTS. To create Ubuntu 18.04 SD cards for use with my Pi 3 B+s I followed the instructions in the second post in [this thread on the Raspberry Pi forums](https://www.raspberrypi.org/forums/viewtopic.php?t=215724).
+I personally work on this repository via Elementary OS 5.0 (which runs Ubuntu 18.04 LTS under the hood) on a Dell XPS 13 9370. In addition I'm also using a handful of my personal Raspberry Pi 3 B+s that are running Ubuntu 18.04 LTS. To create Ubuntu 18.04 SD cards for use with my Pi 3 B+s I followed the instructions in the second post in [this thread on the Raspberry Pi forums](https://www.raspberrypi.org/forums/viewtopic.php?t=215724).
 
-### Getting started
+## Getting started
 
 These are the steps you'll need to take to get up and running with this repository!
 
@@ -91,3 +91,58 @@ These are the steps you'll need to take to get up and running with this reposito
         5. Clean up files that are no longer needed
 
                 rm -rf ~/Downloads/okhound-pi2\&3/ ~/Downloads/okhound-nodejs-1.0.0-pi2+3.tar.gz
+
+4. Extract useful utilities from HoundifyExplorer
+    * Note, at some point I may create these utilities myself but for now the easiest thing to do was to use the files bundled with HoundifyExplorer
+
+    1. First create a directory for these files in your local clone of this repository.
+
+            mkdir -p ~/Downloads/HoundHouse/HoundifyExplorerUtils
+
+    2. Download the **Houndify Explorer Source** from the Houndify [Houndify Explorer page](https://www.houndify.com/sdks#HoundifyExplorer)
+
+    3. Extract the file you just downloaded.
+
+            tar -xvf HoundifyExplorer.tar.gz -C ~/Downloads
+
+    4. Copy utilities used by this repo
+
+            cp ~/Downloads/HoundifyExplorer/HoundClientALSAAudio.cpp ~/Downloads/HoundHouse/HoundifyExplorerUtils
+            cp ~/Downloads/HoundifyExplorer/HoundClientALSAAudio.h ~/Downloads/HoundHouse/HoundifyExplorerUtils
+            cp ~/Downloads/HoundifyExplorer/PlatformSpecificClientCapabilities.h ~/Downloads/HoundHouse/HoundifyExplorerUtils
+            cp ~/Downloads/HoundifyExplorer/PlatformSpecificClientCapabilitiesLinux.cpp ~/Downloads/HoundHouse/HoundifyExplorerUtils
+
+    5. **OPTIONAL** Clean up files that are no longer needed
+
+            rm -rf ~/Downloads/HoundifyExplorer ~/Downloads/HoundifyExplorer.tar.gz
+
+        * **_I strongly recommend you keep HoundifyExplorer and read its README. It's an invaluable debugging tool._**
+
+## Simple Demos
+
+### SimplePhraseSpotter
+SimplePhraseSpotter.cpp is a basic driver that uses an ALSA compatible microphone to watch for utterances of "Ok Hound"
+
+* Normally the OkHoundSink class prints no ouput however when HOUNDHOUSEDEBUG is defined a print message is compiled in.
+    * This is so that -DHOUNDHOUSEDEBUG can be used for debugging but doesn't change performance when not debugging.
+    * -DHOUNDHOUSEDEBUG is passed to g++ by the different make files that are used to create the SimplePhraseSpotter
+
+* To build on Linux x86_64
+
+        cd ~/Downloads/HoundHouse/SimplePhraseSpotter
+        make -f Makefile.Linux
+
+* To build on a Raspberry Pi 3 B+
+
+        cd ~/Downloads/HoundHouse/SimplePhraseSpotter
+        make -f Makefile.Rpi
+
+* To find a device name to use run `arecord -L`
+
+* To run try:
+
+        cd ~/Downloads/HoundHouse/SimplePhraseSpotter
+        ./SimplePhraseSpotter.out alsa:plughw:CARD=PCH,DEV=0
+
+    * Note you must prefix the ALSA device name with 'alsa:' when passing it to the simple spotter
+
