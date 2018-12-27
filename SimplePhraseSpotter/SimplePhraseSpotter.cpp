@@ -4,6 +4,7 @@
 #include "ClientCapabilityRegistry.h"
 #include "PlatformSpecificClientCapabilities.h"
 #include "throwf.h"
+#include <cstring>
 #include <iostream>
 
 extern "C"
@@ -21,6 +22,14 @@ int main(int argc, char** argv){
               << std::endl;
 
     std::cout << "ALSARECORDINGDEVICE should be a device name from `arecord -L` prefixed"
+              << std::endl
+              << "with 'alsa:' ex: alsa:plughw:CARD=PCH,DEV=0"
+              << std::endl;
+    return 1;
+  }
+
+  if(std::strncmp("alsa:",*(argv+1),5)!=0){
+    std::cerr << "ALSARECORDINGDEVICE should be a device name from `arecord -L` prefixed"
               << std::endl
               << "with 'alsa:' ex: alsa:plughw:CARD=PCH,DEV=0"
               << std::endl;
