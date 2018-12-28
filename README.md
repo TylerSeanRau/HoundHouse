@@ -111,6 +111,7 @@ These are the steps you'll need to take to get up and running with this reposito
             cp ~/Downloads/HoundifyExplorer/HoundClientALSAAudio.h ~/Downloads/HoundHouse/HoundifyExplorerUtils
             cp ~/Downloads/HoundifyExplorer/PlatformSpecificClientCapabilities.h ~/Downloads/HoundHouse/HoundifyExplorerUtils
             cp ~/Downloads/HoundifyExplorer/PlatformSpecificClientCapabilitiesLinux.cpp ~/Downloads/HoundHouse/HoundifyExplorerUtils
+            cp ~/Downloads/HoundifyExplorer/HoundAudioVerifier.h ~/Downloads/HoundHouse/HoundifyExplorerUtils
 
     5. **OPTIONAL** Clean up files that are no longer needed
 
