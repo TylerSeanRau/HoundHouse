@@ -1,5 +1,8 @@
 /* file "SimpleRequestInfoPreparer.h" */
 
+#ifndef SIMPLEREQUESTINFOPREPARER_H
+#define SIMPLEREQUESTINFOPREPARER_H
+
 #include "RequestInfoPreparer.h"
 
 #ifdef HOUNDHOUSEDEBUG
@@ -32,3 +35,4 @@ class SimpleRequestInfoPreparer : public RequestInfoPreparer
     }
 };
 
+#endif /* SIMPLEREQUESTINFOPREPARER_H */
