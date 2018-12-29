@@ -151,7 +151,7 @@ SimplePhraseSpotter.cpp is a basic driver that uses an ALSA compatible microphon
 SimpleAudioQueriesOnlyWrittenResponse.cpp is another basic driver that uses an ALSA compatible microphone to listen for utterences of "Ok Hound".
 ##### Basic Walkthrough
 1. After hearing "Ok Hound" the client beings an audio query. This includes, but is not limited to, preparing the request info, sending the request info, and starting to transmit audio data.
-2. The request info is prepared via the `prepare` method of the `SimpleRequestInfoPreparer` class. The only change to the request info that the preparer makes is that it askes the server to tell the client when it thinks that the user has finished speaking.
+2. The request info is prepared via the `prepare` method of the `SimpleRequestInfoPreparer` class. The only change to the request info that the preparer makes is that it asks the server to tell the client when it thinks that the user has finished speaking.
     * `SimpleRequestInfoPreparer` communicates that it would like the server to do this via `request_info->setServerDeterminesEndOfAudio(true);` in its `prepare` method.
 3. `SimpleSinkWithoutClosingSound` will continue to send audio to the server until it tells it to stop or the `more_ok` method on the voice request returns false.
 4. Finally the SimpleDynamicResponseHandlerWithNoAudioOutput will print the long written response.
@@ -177,7 +177,7 @@ const SimpleHoundCloudRequesterConfig simple_config = {
 };
 ```
 
-From here information about your client will be required, you can obtain this info by creating a client on Houndify.com. After creating the client navigate to it and look for the **Overview && API Keys** section and you should find the Client Id and Client Key under the **Client Information** section on that page and then insert them into the appropriate places. Finally, give a user name to this client, this can be anything.
+From here information about your client will be required, you can obtain this info by creating a client on Houndify.com. After creating the client navigate to it and look for the **Overview & API Keys** section and you should find the Client Id and Client Key under the **Client Information** section on that page and then insert them into the appropriate places. Finally, give a user name to this client, this can be anything.
 
 #### Building and Running
 **You must configure LocalConfig.cpp before SimpleAudioQueriesOnlyWrittenResponse.out will build correctly**
