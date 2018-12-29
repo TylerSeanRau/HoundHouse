@@ -4,6 +4,7 @@
 #define SIMPLEREQUESTINFOPREPARER_H
 
 #include "RequestInfoPreparer.h"
+#include "RequestInfoJSON.h"
 
 #ifdef HOUNDHOUSEDEBUG
 #include <iostream>
