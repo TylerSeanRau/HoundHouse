@@ -13,6 +13,10 @@ These are the prodcuts that I recommend and they are also the ones that I will t
 | ReSpeaker 4-Mic Array | Microphone | [Source](http://wiki.seeedstudio.com/ReSpeaker_4_Mic_Array_for_Raspberry_Pi/) | [Purchase](https://www.digikey.com/product-detail/en/seeed-technology-co-ltd/103030216/1597-1549-ND/7650463) |
 | Pibow 3 B+ Coupé Flotilla | Case/Protection | [Source](https://shop.pimoroni.com/products/pibow-coupe-for-raspberry-pi-3-b-plus?variant=2601078358026) | [Purchase](https://www.digikey.com/product-detail/en/pimoroni-ltd/PIM343/PIM343-ND/8574328) |
 | Raspberry Pi Universal Power Supply | Power Supply | [Source](https://www.raspberrypi.org/products/raspberry-pi-universal-power-supply/) | [Purchase](https://www.digikey.com/product-detail/en/pimoroni-ltd/PIM343/PIM343-ND/8574328) |
+| Sony XB10 | Speaker | [Source](https://www.sony.com/electronics/wireless-speakers/srs-xb10) | [Purchase](https://www.amazon.com/gp/product/B01N5UT6FC/ref=ppx_yo_dt_b_asin_title_o01__o00_s00?ie=UTF8&psc=1) |
+| 6 Inch 3.5mm audio cable | Pi to Speaker link | | [Purchase](https://www.amazon.com/gp/product/B008A81PT4/ref=ppx_yo_dt_b_asin_title_o01__o00_s00?ie=UTF8&psc=1) |
+
+Note: Yes, initially this project uses a speaker via the audio jack; however it may not in the future. The only stipulation about what speaker can be used is that it must be ALSA compatible or another.
 
 ## Getting started
 
