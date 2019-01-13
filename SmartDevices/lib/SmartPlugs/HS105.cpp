@@ -1,3 +1,5 @@
+/* file "HS105.cpp" */
+
 #include "HS105.h"
 
 #include <sys/types.h>
