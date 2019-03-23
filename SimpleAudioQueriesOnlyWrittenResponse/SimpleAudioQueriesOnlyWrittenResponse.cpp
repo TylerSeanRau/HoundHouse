@@ -21,6 +21,13 @@ extern "C"
 
 #include <iostream>
 #include <cstring>
+#ifdef RESPEAKERLEDRING
+#include <cstdint>
+#include <unistd.h>
+#include <wiringPi.h>
+#include <wiringPiSPI.h>
+#include <omp.h>
+#endif /* RESPEAKERLEDRING */
 
 
 static void dump_usage(void);
@@ -135,6 +142,44 @@ int main(int argc, char** argv){
 
   PhraseSpotterSetThreshold(0.4);
 
+#ifdef RESPEAKERLEDRING
+  wiringPiSetupGpio();
+
+  pinMode(5,OUTPUT);
+
+  int gpio_fd;
+  if((gpio_fd = wiringPiSPISetup(0, 8000000)) < 0){
+    std::cerr << "wiringPiSPISetup failed" << std::endl;
+  }
+
+  std::uint8_t r, g, b, brightness;
+  r = 0x00;
+  g = 0x00;
+  b = 0xFF;
+  brightness = 1;
+  std::uint8_t led_frame[48];
+  std::uint8_t begin_empty_frame[4] = {0x00, 0x00, 0x00, 0x00};
+  std::uint8_t close_empty_frame[1] = {0x00};
+  for(int j=0;j<12;j++){
+    led_frame[(j*4)] = 0b11100000 | (0b00011111 & brightness);
+    led_frame[(j*4)+1] = b;
+    led_frame[(j*4)+2] = g;
+    led_frame[(j*4)+3] = r;
+  }
+
+  brightness = 11;
+
+  led_frame[36] = 0b11100000 | (0b00011111 & brightness);
+
+  brightness = 21;
+
+  led_frame[40] = 0b11100000 | (0b00011111 & brightness);
+
+  brightness = 31;
+
+  led_frame[44] = 0b11100000 | (0b00011111 & brightness);
+#endif /* RESPEAKERLEDRING */
+
   HoundCloudRequester requester(
     simple_config.clientId,
     simple_config.clientKey,
@@ -167,7 +212,26 @@ int main(int argc, char** argv){
     while(true){
       OkHoundSink ok_hound_sink;
       audio_source_to_use->capture(16000, 1, 16, true, &ok_hound_sink);
+#ifdef RESPEAKERLEDRING
+      digitalWrite(5,HIGH);
+      #pragma omp parallel num_threads(2)
+      {
+        if(omp_get_thread_num()==0){
+          while(digitalRead(5)){
+            write(gpio_fd,begin_empty_frame,4);
+            write(gpio_fd,led_frame,48);
+            write(gpio_fd,close_empty_frame,1);
+            for(int i=0;i<11;i++)
+              std::swap(led_frame[i*4],led_frame[(i+1)*4]);
+            usleep(75000);
+          }
+        } else if(omp_get_thread_num()==1){
+          process_request(&converser, audio_source_to_use, &local_handler);
+        }
+      }
+#else /* RESPEAKERLEDRING */
       process_request(&converser, audio_source_to_use, &local_handler);
+#endif
     }
   }
   catch (char *e1){
@@ -195,7 +259,11 @@ static void process_request(
 
   local_handler->beginQuery();
 
+#ifdef RESPEAKERLEDRING
+  SimpleSinkTurnOffLight sink(voice_request, local_handler);
+#else /* RESPEAKERLEDRING */
   SimpleSinkWithoutClosingSound sink(voice_request, local_handler);
+#endif
   audio_device->capture(16000, 1, 16, true, &sink);
 
   voice_request->finish();
