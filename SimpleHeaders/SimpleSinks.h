@@ -8,7 +8,9 @@
 #include "SimpleAudioVerifier.h"
 #include "SimplePartialHandler.h"
 
+#ifdef RESPEAKERLEDRING
 #include <wiringPi.h>
+#endif /* RESPEAKERLEDRING */
 
 class SimpleSinkWithoutClosingSound : public ClientCapabilityRegistry::DataSink
 {
@@ -41,6 +43,7 @@ class SimpleSinkWithoutClosingSound : public ClientCapabilityRegistry::DataSink
       }
 };
 
+#ifdef RESPEAKERLEDRING
 class SimpleSinkTurnOffLight : public SimpleSinkWithoutClosingSound
 {
   public:
@@ -69,4 +72,6 @@ class SimpleSinkTurnOffLight : public SimpleSinkWithoutClosingSound
       return byte_count;
     }
 };
+#endif /* RESPEAKERLEDRING */
+
 #endif /* SIMPLESINKS_H */
