@@ -163,7 +163,7 @@ SimplePhraseSpotter.cpp is a basic driver that uses an ALSA compatible microphon
     * Note you must prefix the ALSA device name with 'alsa:' when passing it to the simple spotter
 
 ### SimpleAudioQueriesOnlyWrittenResponse
-SimpleAudioQueriesOnlyWrittenResponse.cpp is another basic driver that uses an ALSA compatible microphone to listen for utterences of "Ok Hound" and responds only with text on the screen. **Note, it would not take much modification to make this driver support audio responses, most of the required changes would be inside the classes it uses not in the main .cpp file*
+SimpleAudioQueriesOnlyWrittenResponse.cpp is another basic driver that uses an ALSA compatible microphone to listen for utterences of "Ok Hound" and responds only with text on the screen. * *Note, it would not take much modification to make this driver support audio responses, most of the required changes would be inside the classes it uses not in the main .cpp file*
 
 ##### Basic Walkthrough
 1. After hearing "Ok Hound" the client beings an audio query. This includes, but is not limited to, preparing the request info, sending the request info, and starting to transmit audio data.
@@ -208,6 +208,20 @@ From here information about your client will be required, you can obtain this in
         cd ~/Downloads/HoundHouse/SimpleAudioQueriesOnlyWrittenResponse
         make -f Makefile.Rpi
 
+    * To build on a Raspberry Pi 3 B+ with support for the ReSpeaker 4 Mic Array's LED Ring use:
+
+        * First Build and install the WiringPi Library:
+
+                cd ~/Downloads
+                git clone git://git.drogon.net/wiringPi
+                cd wiringPi
+                ./build
+
+        * Build on a Raspberry Pi 3 B+, with ReSpeaker 4 Mic Array LED support:
+
+                cd ~/Downloads/HoundHouse/SimpleAudioQueriesOnlyWrittenResponse
+                make -f Makefile.Rpi -j 2 DEFINE_FEATURE_FLAGS='-DRESPEAKERLEDRING'
+
 * To find a device name to use run `arecord -L`
 
 * To run try:
@@ -216,3 +230,5 @@ From here information about your client will be required, you can obtain this in
         ./SimpleAudioQueriesOnlyWrittenResponse.out alsa:plughw:CARD=PCH,DEV=0
 
     * Note you must prefix the ALSA device name with 'alsa:' when passing it to the simple spotter
+    * If you compiled with WiringPi support you'll need to run with `sudo`, this is to get hardware access the GPIO port. I'm looking into ways to remove the need for the use of `sudo`.
+
