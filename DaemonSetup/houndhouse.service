@@ -1,0 +1,13 @@
+[Unit]
+Description=Smart speaker service powered by Houndify
+Requires=alsa-restore.service
+After=sys-devices-platform-soc-3f204000.spi-spi_master-spi0-spi0.0-spidev-spidev0.0.device sys-devices-platform-soc-3f204000.spi-spi_master-spi0-spi0.1-spidev-spidev0.1.device sys-devices-platform-soc-soc:audio-bcm2835_alsa-sound-card0.device sys-devices-platform-soc-soc:sound-sound-card1.device sound.target
+BindsTo=sys-devices-platform-soc-3f204000.spi-spi_master-spi0-spi0.0-spidev-spidev0.0.device sys-devices-platform-soc-3f204000.spi-spi_master-spi0-spi0.1-spidev-spidev0.1.device sys-devices-platform-soc-soc:audio-bcm2835_alsa-sound-card0.device sys-devices-platform-soc-soc:sound-sound-card1.device
+
+[Service]
+Type=simple
+ExecStart=/bin/bash -c '/usr/bin/HoundHouse alsa:plughw:CARD=seeed4micvoicec,DEV=0 alsa:plughw:CARD=ALSA,DEV=0 | /usr/bin/tee -a /var/log/HoundHouse | /usr/bin/tr '"'"'\\r'"'"' '"'"'\\n'"'"' | /usr/bin/tee -a /home/ubuntu/testlog'
+KillMode=control-group
+
+[Install]
+WantedBy=multi-user.target
