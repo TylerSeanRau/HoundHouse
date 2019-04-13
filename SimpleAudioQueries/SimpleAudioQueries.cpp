@@ -35,9 +35,19 @@ extern "C"
 #include <wiringPi.h>
 #include <wiringPiSPI.h>
 #include <omp.h>
+#include <thread>
+#include <atomic>
+#include <chrono>
 #endif /* RESPEAKERLEDRING */
 
 static void dump_usage(void);
+static void process_request(
+  HoundConverser * converser,
+  ClientCapabilityRegistry::AudioSource * audio_device,
+  SimplePartialHandler * local_handler);
+#ifdef RESPEAKERLEDRING
+static void startup_time_out(std::atomic<bool> * should_time_out);
+#endif /* RESPEAKERLEDRING */
 
 namespace
 {
@@ -85,9 +95,9 @@ namespace
       virtual void prepare(RequestInfoJSON *request_info){
         assert(request_info != NULL);
         SimpleRequestInfoPreparer::prepare(request_info);
-  #ifdef HOUNDHOUSEDEBUG
+#ifdef HOUNDHOUSEDEBUG
         std::cout<<"Beginning RequestInfoJSON preperations by LocalRequestInfoPreparer."<<std::endl;
-  #endif /* HOUNDHOUSEDEBUG */
+#endif /* HOUNDHOUSEDEBUG */
 
         request_info->setResponseAudioShortOrLong(
           RequestInfoJSON::ResponseAudioShortOrLong_Long
@@ -128,10 +138,14 @@ namespace
   };
 }
 
-static void process_request(
-  HoundConverser * converser,
-  ClientCapabilityRegistry::AudioSource * audio_device,
-  SimplePartialHandler * local_handler);
+
+#ifdef RESPEAKERLEDRING
+static void startup_time_out(std::atomic<bool> * should_time_out){
+  std::this_thread::sleep_for(std::chrono::seconds(5));
+  if(*should_time_out == true)
+    digitalWrite(5,LOW);
+}
+#endif /* RESPEAKERLEDRING */
 
 static void dump_usage(const char * const prog_name){
   std::cout << "Usage: "
@@ -141,6 +155,10 @@ static void dump_usage(const char * const prog_name){
             << " "
             << "[--long LONGITUDE]"
             << " "
+#ifdef RESPEAKERLEDRING
+            << "[--showstartup]"
+            << " "
+#endif /* RESPEAKERLEDRING */
             << "ALSARECORDINGDEVICE"
             << " "
             << "ALSAPLAYBACKDEVICE"
@@ -160,7 +178,11 @@ static void dump_usage(const char * const prog_name){
 
 int main(int argc, char** argv){
 
+#ifdef RESPEAKERLEDRING
+  if(argc<3||argc>8){
+#else /* RESPEAKERLEDRING */
   if(argc<3||argc>7){
+#endif
     dump_usage(*(argv));
 
     return 1;
@@ -170,6 +192,9 @@ int main(int argc, char** argv){
   double lat = 0.0;
   bool passed_lon = false;
   double lon = 0.0;
+#ifdef RESPEAKERLEDRING
+  bool show_start_up = false;
+#endif /* RESPEAKERLEDRING */
 
   unsigned int positional_arg_counter = 0;
   unsigned int alsa_recording_device_index = 0;
@@ -212,6 +237,10 @@ int main(int argc, char** argv){
           i++;
         }
       }
+#ifdef RESPEAKERLEDRING
+    } else if(std::strcmp("--showstartup",*(argv+i))==0) {
+      show_start_up = true;
+#endif /* RESPEAKERLEDRING */
     } else {
       if(positional_arg_counter > 1){
         std::cerr << "Error: too many positional arguments passed" <<std::endl;
@@ -341,14 +370,47 @@ int main(int argc, char** argv){
       &simple_dynamic_response_handler
     );
 
-    while(true){
+#ifdef RESPEAKERLEDRING
+    if(show_start_up){
+      uint8_t start_up_brightness = 11;
+      uint8_t start_up_led_frame[48];
+      uint8_t empty_frames[5] = {0x00, 0x00, 0x00, 0x00, 0x00};
+      for(int j=0;j<12;j++){
+        start_up_led_frame[(j*4)] =
+          0b11100000 | (0b00011111 & start_up_brightness);
+        start_up_led_frame[(j*4)+1] = 0x00;
+        start_up_led_frame[(j*4)+2] = 0xFF;
+        start_up_led_frame[(j*4)+3] = 0x00;
+      }
+      digitalWrite(5,HIGH);
+      write(fd,empty_frames,4);
+      write(fd,start_up_led_frame,48);
+      write(fd,empty_frames,1);
+
+      std::atomic<bool> should_time_out(true);
+      std::thread startup_time_out_thread(startup_time_out,&should_time_out);
+      startup_time_out_thread.detach();
       OkHoundSink ok_hound_sink;
       audio_source_to_use->capture(16000, 1, 16, true, &ok_hound_sink);
+      should_time_out = false;
+    }else{
+      OkHoundSink ok_hound_sink;
+      audio_source_to_use->capture(16000, 1, 16, true, &ok_hound_sink);
+    }
+#else /* RESPEAKERLEDRING */
+    {
+      OkHoundSink ok_hound_sink;
+      audio_source_to_use->capture(16000, 1, 16, true, &ok_hound_sink);
+    }
+#endif
+
+    while(true){
 #ifdef RESPEAKERLEDRING
       digitalWrite(5,HIGH);
-      #pragma omp parallel num_threads(2)
+      #pragma omp parallel sections
       {
-        if(omp_get_thread_num()==0){
+        #pragma omp section
+        {
           while(digitalRead(5)){
             write(fd,close_empty_frame,4);
             write(fd,led_frame,48);
@@ -358,13 +420,17 @@ int main(int argc, char** argv){
             //usleep(100000);
             usleep(75000);
           }
-        } else if(omp_get_thread_num()==1){
+        }
+        #pragma omp section
+        {
           process_request(&converser, audio_source_to_use, &local_handler);
         }
       }
 #else /* RESPEAKERLEDRING */
       process_request(&converser, audio_source_to_use, &local_handler);
 #endif
+      OkHoundSink ok_hound_sink;
+      audio_source_to_use->capture(16000, 1, 16, true, &ok_hound_sink);
     }
   }
   catch (char *e1){
