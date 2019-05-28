@@ -371,9 +371,18 @@ int main(int argc, char** argv){
         start_up_led_frame[(j*4)+3] = 0x00;
       }
       digitalWrite(5,HIGH);
-      write(fd,empty_frames,4);
-      write(fd,start_up_led_frame,48);
-      write(fd,empty_frames,1);
+      try {
+        if(write(fd,empty_frames,4)<1)
+          throw("An error occurred while trying to write to LED buffer");
+        if(write(fd,start_up_led_frame,48)<1)
+          throw("An error occurred while trying to write to LED buffer");
+        if(write(fd,empty_frames,1)<1)
+          throw("An error occurred while trying to write to LED buffer");
+      } catch (const char * const e){
+        std::cerr << e
+                  << std::endl;
+        return 1;
+      }
 
       std::atomic<bool> should_time_out(true);
 
@@ -409,9 +418,17 @@ int main(int argc, char** argv){
         #pragma omp section
         {
           while(digitalRead(5)){
-            write(fd,close_empty_frame,4);
-            write(fd,led_frame,48);
-            write(fd,close_empty_frame,1);
+            try {
+              if(write(fd,close_empty_frame,4)<1)
+                throw("An error occurred while trying to write to LED buffer");
+              if(write(fd,led_frame,48)<1)
+                throw("An error occurred while trying to write to LED buffer");
+              if(write(fd,close_empty_frame,1)<1)
+                throw("An error occurred while trying to write to LED buffer");
+            } catch (const char * const e){
+              std::cerr << e
+                        << std::endl;
+            }
             for(int i=0;i<11;i++)
               std::swap(led_frame[i*4],led_frame[(i+1)*4]);
             //usleep(100000);
