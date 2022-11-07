@@ -44,6 +44,7 @@ static void dump_usage(void);
 static void process_request(
   HoundConverser * converser,
   ClientCapabilityRegistry::AudioSource * audio_device,
+  uint64_t num_of_mic_channels,
   SimplePartialHandler * local_handler);
 
 namespace
@@ -143,6 +144,8 @@ static void dump_usage(const char * const prog_name){
             << " "
             << "[--long LONGITUDE]"
             << " "
+            << "[--num-of-mic-channels NUMBEROFMICCHANNELS]"
+            << " "
 #ifdef RESPEAKERLEDRING
             << "[--showstartup]"
             << " "
@@ -167,9 +170,9 @@ static void dump_usage(const char * const prog_name){
 int main(int argc, char** argv){
 
 #ifdef RESPEAKERLEDRING
-  if(argc<3||argc>8){
+  if(argc<3||argc>10){
 #else /* RESPEAKERLEDRING */
-  if(argc<3||argc>7){
+  if(argc<3||argc>9){
 #endif
     dump_usage(*(argv));
 
@@ -180,6 +183,7 @@ int main(int argc, char** argv){
   double lat = 0.0;
   bool passed_lon = false;
   double lon = 0.0;
+  uint64_t num_of_mic_channels=1ULL;
 #ifdef RESPEAKERLEDRING
   bool show_start_up = false;
 #endif /* RESPEAKERLEDRING */
@@ -223,6 +227,22 @@ int main(int argc, char** argv){
         } else {
           passed_lon = true;
           i++;
+        }
+      }
+    } else if(std::strcmp("--num-of-mic-channels",*(argv+i))==0) {
+      if(i==argc-1){
+        std::cerr << "Error: --num-of-mic-channels requires one argument"
+                  << std::endl;
+        return 1;
+      } else {
+        char * next_value = *(argv+i+1);
+        try {
+          num_of_mic_channels = std::stoull(next_value);
+          i++;
+        } catch (...){
+          std::cerr << "Error: argument passed to --num-of-mic-channels must be an unsigned long long"
+                    << std::endl;
+          return 1;
         }
       }
 #ifdef RESPEAKERLEDRING
@@ -437,11 +457,11 @@ int main(int argc, char** argv){
         }
         #pragma omp section
         {
-          process_request(&converser, audio_source_to_use, &local_handler);
+          process_request(&converser, audio_source_to_use, num_of_mic_channels, &local_handler);
         }
       }
 #else /* RESPEAKERLEDRING */
-      process_request(&converser, audio_source_to_use, &local_handler);
+      process_request(&converser, audio_source_to_use, num_of_mic_channels, &local_handler);
 #endif
       OkHoundSink ok_hound_sink;
       audio_source_to_use->capture(16000, 1, 16, true, &ok_hound_sink);
@@ -465,6 +485,7 @@ int main(int argc, char** argv){
 static void process_request(
   HoundConverser * converser,
   ClientCapabilityRegistry::AudioSource * audio_device,
+  uint64_t num_of_mic_channels,
   SimplePartialHandler * local_handler)
 {
   HoundConverser::VoiceRequest *voice_request =
@@ -477,7 +498,7 @@ static void process_request(
 #else /* RESPEAKERLEDRING */
   SimpleSinkWithoutClosingSound sink(voice_request, local_handler);
 #endif
-  audio_device->capture(16000, 1, 16, true, &sink);
+  audio_device->capture(16000, num_of_mic_channels, 16, true, &sink);
 
   voice_request->finish();
   delete voice_request;
