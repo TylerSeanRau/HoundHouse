@@ -1,4 +1,4 @@
-all: simplephrasespotter.out
+all: SimplePhraseSpotter.out
 
 CPP=g++
 CPP_FLAGS= -Os -Wl,--no-keep-memory -Wl,--reduce-memory-overhead 
@@ -7,11 +7,14 @@ LINK_CPP=g++
 LINK_FLAGS= -Os -Wl,--no-keep-memory -Wl,--reduce-memory-overhead -Wl,--export-dynamic 
 #LINK_FLAGS= -export-dynamic
 
-simplephrasespotter.o:
-	$(CPP) $(CPP_FLAGS) $(DEFNINE_DEBUG_FLAGS) -c simplephrasespotter.cpp -I../../HoundCpp/c_foundations -I../../HoundCpp/ReferenceCounting -I../../HoundCpp/SharedArray -I../../HoundCpp/Common -I../../HoundCpp/Numbers -I../../HoundCpp/SalmonEye -I../../HoundCpp/Utilities -I../../HoundCpp/GoldenRetriever -I../../HoundCpp/JSON -I../../HoundCpp/HoundJSON -I../../HoundCpp/HoundRequester -I../../HoundCpp/HoundConverser -I../../HoundCpp/ClientCapabilityRegistry -I../../HoundCpp -I../ -I../OkHound/raspberrypi
+SimplePhraseSpotter.o:
+	$(CPP) $(CPP_FLAGS) $(DEFNINE_DEBUG_FLAGS) -c SimplePhraseSpotter.cpp -I../../HoundCpp/c_foundations -I../../HoundCpp/ReferenceCounting -I../../HoundCpp/SharedArray -I../../HoundCpp/Common -I../../HoundCpp/Numbers -I../../HoundCpp/SalmonEye -I../../HoundCpp/Utilities -I../../HoundCpp/GoldenRetriever -I../../HoundCpp/JSON -I../../HoundCpp/HoundJSON -I../../HoundCpp/HoundRequester -I../../HoundCpp/HoundConverser -I../../HoundCpp/ClientCapabilityRegistry -I../../HoundCpp -I../ -I../OkHound/raspberrypi
 
 %.o: ../%.cpp
 	$(CPP) $(CPP_FLAGS) $(DEFNINE_DEBUG_FLAGS) -c $< -I../../HoundCpp/c_foundations -I../../HoundCpp/ReferenceCounting -I../../HoundCpp/SharedArray -I../../HoundCpp/Common -I../../HoundCpp/Numbers -I../../HoundCpp/SalmonEye -I../../HoundCpp/Utilities -I../../HoundCpp/GoldenRetriever -I../../HoundCpp/JSON -I../../HoundCpp/HoundJSON -I../../HoundCpp/HoundRequester -I../../HoundCpp/HoundConverser -I../../HoundCpp/ClientCapabilityRegistry -I../../HoundCpp -I../ -I../OkHound/raspberrypi
 
-simplephrasespotter.out: PlatformSpecificClientCapabilitiesLinux.o HoundClientALSAAudio.o simplephrasespotter.o
-	$(LINK_CPP) $(LINK_FLAGS) -o simplephrasespotter.out simplephrasespotter.o PlatformSpecificClientCapabilitiesLinux.o HoundClientALSAAudio.o -L../../HoundCpp/c_foundations -L../../HoundCpp/ReferenceCounting -L../../HoundCpp/SharedArray -L../../HoundCpp/Common -L../../HoundCpp/Numbers -L../../HoundCpp/SalmonEye -L../../HoundCpp/Utilities -L../../HoundCpp/GoldenRetriever -L../../HoundCpp/JSON -L../../HoundCpp/HoundJSON -L../../HoundCpp/HoundRequester -L../../HoundCpp/HoundConverser -L../../HoundCpp/ClientCapabilityRegistry -L../OkHound/raspberrypi -lclientcapabilityregistry -lhoundconverser -lhoundrequester -lhoundjson -ljson_library -lGoldenRetriever -lutilities -lSalmonEye -lnumbers -lc_foundations -lasound -lncurses -lpthread -ldl -lssl -lcrypto -lPhraseSpotter
+SimplePhraseSpotter.out: SimplePhraseSpotter.o PlatformSpecificClientCapabilitiesLinux.o HoundClientALSAAudio.o
+	$(LINK_CPP) $(LINK_FLAGS) -o SimplePhraseSpotter.out SimplePhraseSpotter.o PlatformSpecificClientCapabilitiesLinux.o HoundClientALSAAudio.o -L../../HoundCpp/c_foundations -L../../HoundCpp/ReferenceCounting -L../../HoundCpp/SharedArray -L../../HoundCpp/Common -L../../HoundCpp/Numbers -L../../HoundCpp/SalmonEye -L../../HoundCpp/Utilities -L../../HoundCpp/GoldenRetriever -L../../HoundCpp/JSON -L../../HoundCpp/HoundJSON -L../../HoundCpp/HoundRequester -L../../HoundCpp/HoundConverser -L../../HoundCpp/ClientCapabilityRegistry -L../OkHound/raspberrypi -lclientcapabilityregistry -lhoundconverser -lhoundrequester -lhoundjson -ljson_library -lGoldenRetriever -lutilities -lSalmonEye -lnumbers -lc_foundations -lasound -lncurses -lpthread -ldl -lssl -lcrypto -lPhraseSpotter
+
+clean:
+	-rm -f SimplePhraseSpotter.out SimplePhraseSpotter.o PlatformSpecificClientCapabilitiesLinux.o HoundClientALSAAudio.o
