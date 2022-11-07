@@ -390,7 +390,7 @@ int main(int argc, char** argv){
         [](std::atomic<bool> * should_time_out){
           std::this_thread::sleep_for(std::chrono::seconds(5));
           if(*should_time_out == true)
-          digitalWrite(5,LOW);
+            digitalWrite(5,LOW);
         },
         &should_time_out
       );
