@@ -45,9 +45,6 @@ static void process_request(
   HoundConverser * converser,
   ClientCapabilityRegistry::AudioSource * audio_device,
   SimplePartialHandler * local_handler);
-#ifdef RESPEAKERLEDRING
-static void startup_time_out(std::atomic<bool> * should_time_out);
-#endif /* RESPEAKERLEDRING */
 
 namespace
 {
@@ -137,15 +134,6 @@ namespace
       }
   };
 }
-
-
-#ifdef RESPEAKERLEDRING
-static void startup_time_out(std::atomic<bool> * should_time_out){
-  std::this_thread::sleep_for(std::chrono::seconds(5));
-  if(*should_time_out == true)
-    digitalWrite(5,LOW);
-}
-#endif /* RESPEAKERLEDRING */
 
 static void dump_usage(const char * const prog_name){
   std::cout << "Usage: "
@@ -388,7 +376,16 @@ int main(int argc, char** argv){
       write(fd,empty_frames,1);
 
       std::atomic<bool> should_time_out(true);
-      std::thread startup_time_out_thread(startup_time_out,&should_time_out);
+
+      std::thread startup_time_out_thread(
+        [](std::atomic<bool> * should_time_out){
+          std::this_thread::sleep_for(std::chrono::seconds(5));
+          if(*should_time_out == true)
+          digitalWrite(5,LOW);
+        },
+        &should_time_out
+      );
+
       startup_time_out_thread.detach();
       OkHoundSink ok_hound_sink;
       audio_source_to_use->capture(16000, 1, 16, true, &ok_hound_sink);
