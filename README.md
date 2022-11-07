@@ -148,7 +148,8 @@ SimplePhraseSpotter.cpp is a basic driver that uses an ALSA compatible microphon
     * Note you must prefix the ALSA device name with 'alsa:' when passing it to the simple spotter
 
 ### SimpleAudioQueriesOnlyWrittenResponse
-SimpleAudioQueriesOnlyWrittenResponse.cpp is another basic driver that uses an ALSA compatible microphone to listen for utterences of "Ok Hound".
+SimpleAudioQueriesOnlyWrittenResponse.cpp is another basic driver that uses an ALSA compatible microphone to listen for utterences of "Ok Hound" and responds only with text on the screen. **Note, it would not take much modification to make this driver support audio responses, most of the required changes would be inside the classes it uses not in the main .cpp file*
+
 ##### Basic Walkthrough
 1. After hearing "Ok Hound" the client beings an audio query. This includes, but is not limited to, preparing the request info, sending the request info, and starting to transmit audio data.
 2. The request info is prepared via the `prepare` method of the `SimpleRequestInfoPreparer` class. The only change to the request info that the preparer makes is that it asks the server to tell the client when it thinks that the user has finished speaking.
