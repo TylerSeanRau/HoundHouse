@@ -1,7 +1,7 @@
 # HoundHouse
 This is a C++ client that interfaces with the [Houndify](http://houndify.com) platform and is meant to be run on a Raspberry Pi 3 B+ running Ubuntu 18.04 LTS.
 
-I personally work on this repository via Elementary OS 5.0 (which runs Ubuntu 18.04 LTS under the hood) on a Dell XPS 13 9370. In addition I'm also using a handful of my personal Rasberry Pi 3 B+s that are running Ubuntu 18.04 LTS. To create Ubuntu 18.04 SD cards for use with my Pi 3 B+s I followed the instructions in the second post in [this thread on the Raspberry Pi forums](https://www.raspberrypi.org/forums/viewtopic.php?t=215724).
+I personally work on this repository via Elementary OS 5.0 (which runs Ubuntu 18.04 LTS under the hood) on a Dell XPS 13 9370. In addition I'm also using a handful of my personal Raspberry Pi 3 B+s that are running Ubuntu 18.04 LTS. To create Ubuntu 18.04 SD cards for use with my Pi 3 B+s I followed the instructions in the second post in [this thread on the Raspberry Pi forums](https://www.raspberrypi.org/forums/viewtopic.php?t=215724).
 
 ## Getting started
 
@@ -118,13 +118,13 @@ These are the steps you'll need to take to get up and running with this reposito
 
         * **_I strongly recommend you keep HoundifyExplorer and read its README. It's an invaluable debugging tool._**
 
-##Simple Demos
+## Simple Demos
 
-###SimplePhraseSpotter
-SimplePhraseSpotter.cpp is a basic driver that uses an ALSA compatible microphone to watch for utterences of "Ok Hound"
+### SimplePhraseSpotter
+SimplePhraseSpotter.cpp is a basic driver that uses an ALSA compatible microphone to watch for utterances of "Ok Hound"
 
-* Normally the OkHoundSink class prints no ouput however when HOUNDHOUSEDEBUG is defined aprint message is compilied in.
-    * This is so that -DHOUNDHOUSEDEBUG can be used for debugging but doesn't change performace when not debugging.
+* Normally the OkHoundSink class prints no ouput however when HOUNDHOUSEDEBUG is defined a print message is compiled in.
+    * This is so that -DHOUNDHOUSEDEBUG can be used for debugging but doesn't change performance when not debugging.
     * -DHOUNDHOUSEDEBUG is passed to g++ by the different make files that are used to create the SimplePhraseSpotter
 
 * To build on Linux x86_64
