@@ -3,6 +3,21 @@ This is a C++ client that interfaces with the [Houndify](http://houndify.com) pl
 
 I personally work on this repository via Elementary OS 5.0 (which runs Ubuntu 18.04 LTS under the hood) on a Dell XPS 13 9370. In addition I'm also using a handful of my personal Raspberry Pi 3 B+s that are running Ubuntu 18.04 LTS. To create Ubuntu 18.04 SD cards for use with my Pi 3 B+s I followed the instructions in the second post in [this thread on the Raspberry Pi forums](https://www.raspberrypi.org/forums/viewtopic.php?t=215724).
 
+## Hardware Recommendations
+
+These are the prodcuts that I recommend and they are also the ones that I will test. This must be kept in mind when developing any and all features for this repository; however note that the **Simple Drivers** in this repository should be able to function with any ALSA compatible microphone and speaker.
+
+| Name | Function | Link To Source | Purchase Link |
+| --- | --- | --- | --- |
+| Raspberry Pi 3 B+ | **THE HEART OF IT ALL!!** | [Source](https://www.raspberrypi.org/products/raspberry-pi-3-model-b-plus/) | [Purchase](https://www.digikey.com/product-detail/en/raspberry-pi/RASPBERRY-PI-3-MODEL-B-/1690-1025-ND/8571724) |
+| ReSpeaker 4-Mic Array | Microphone | [Source](http://wiki.seeedstudio.com/ReSpeaker_4_Mic_Array_for_Raspberry_Pi/) | [Purchase](https://www.digikey.com/product-detail/en/seeed-technology-co-ltd/103030216/1597-1549-ND/7650463) |
+| Pibow 3 B+ Coupé Flotilla | Case/Protection | [Source](https://shop.pimoroni.com/products/pibow-coupe-for-raspberry-pi-3-b-plus?variant=2601078358026) | [Purchase](https://www.digikey.com/product-detail/en/pimoroni-ltd/PIM343/PIM343-ND/8574328) |
+| Raspberry Pi Universal Power Supply | Power Supply | [Source](https://www.raspberrypi.org/products/raspberry-pi-universal-power-supply/) | [Purchase](https://www.digikey.com/product-detail/en/pimoroni-ltd/PIM343/PIM343-ND/8574328) |
+| Sony XB10 | Speaker | [Source](https://www.sony.com/electronics/wireless-speakers/srs-xb10) | [Purchase](https://www.amazon.com/gp/product/B01N5UT6FC/ref=ppx_yo_dt_b_asin_title_o01__o00_s00?ie=UTF8&psc=1) |
+| 6 Inch 3.5mm audio cable | Pi to Speaker link | | [Purchase](https://www.amazon.com/gp/product/B008A81PT4/ref=ppx_yo_dt_b_asin_title_o01__o00_s00?ie=UTF8&psc=1) |
+
+Note: Yes, initially this project uses a speaker via the audio jack; however it may not in the future. The only stipulation about what speaker can be used is that it must be ALSA compatible or another.
+
 ## Getting started
 
 These are the steps you'll need to take to get up and running with this repository!
