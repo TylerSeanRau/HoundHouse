@@ -91,3 +91,30 @@ These are the steps you'll need to take to get up and running with this reposito
         5. Clean up files that are no longer needed
 
                 rm -rf ~/Downloads/okhound-pi2\&3/ ~/Downloads/okhound-nodejs-1.0.0-pi2+3.tar.gz
+
+4. Extract useful utilities from HoundifyExplorer
+    * Note, at some point I may create these utilities myself but for now the easiest thing to do was to use the files bundled with HoundifyExplorer
+
+    1. First create a directory for these files in your local clone of this repository.
+
+            mkdir -p ~/Downloads/HoundHouse/HoundifyExplorerUtils
+
+    2. Download the **Houndify Explorer Source** from the Houndify [Houndify Explorer page](https://www.houndify.com/sdks#HoundifyExplorer)
+
+    3. Extract the file you just downloaded.
+
+            tar -xvf HoundifyExplorer.tar.gz -C ~/Downloads
+
+    4. Copy utilities used by this repo
+
+            cp ~/Downloads/HoundifyExplorer/HoundClientALSAAudio.cpp ~/Downloads/HoundHouse/HoundifyExplorerUtils
+            cp ~/Downloads/HoundifyExplorer/HoundClientALSAAudio.h ~/Downloads/HoundHouse/HoundifyExplorerUtils
+            cp ~/Downloads/HoundifyExplorer/PlatformSpecificClientCapabilities.h ~/Downloads/HoundHouse/HoundifyExplorerUtils
+            cp ~/Downloads/HoundifyExplorer/PlatformSpecificClientCapabilitiesLinux.cpp ~/Downloads/HoundHouse/HoundifyExplorerUtils
+
+    5. **OPTIONAL** Clean up files that are no longer needed
+
+            rm -rf ~/Downloads/HoundifyExplorer ~/Downloads/HoundifyExplorer.tar.gz
+
+        * **_I strongly recommend you keep HoundifyExplorer and read its README. It's an invaluable debugging tool._**
+
