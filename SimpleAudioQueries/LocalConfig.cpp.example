@@ -1,0 +1,9 @@
+/* file "LocalConfig.cpp" */
+
+#include "SimpleHoundCloudRequesterConfig.h"
+
+const SimpleHoundCloudRequesterConfig simple_config = {
+  "YOUR CLIENT ID HERE", //this can be found on www.houndify.com
+  "YOUR CLIENT KEY HERE", //this can be found on www.houndify.com
+  "YOUR USER ID HERE" //you can make up whatever you'd like for this
+};
