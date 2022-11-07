@@ -21,7 +21,6 @@
 #include "SimplePartialHandler.h"
 #include "SimpleSinks.h"
 #include "SimpleDynamicResponseHandlers.h"
-#include "HS105.h"
 
 extern "C"
 {
@@ -257,7 +256,7 @@ int main(int argc, char** argv){
 
   PhraseSpotterSetThreshold(0.4);
 
-#endif /* RESPEAKERLEDRING */
+#ifdef RESPEAKERLEDRING
   wiringPiSetupGpio();
 
   pinMode(5,OUTPUT);
