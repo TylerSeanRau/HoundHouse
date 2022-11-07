@@ -1,4 +1,4 @@
-all: rpi SimpleAudioQueries.out
+all: rpi
 
 CPP=g++
 CPP_FLAGS=
