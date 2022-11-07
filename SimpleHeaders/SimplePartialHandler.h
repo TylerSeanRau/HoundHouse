@@ -1,5 +1,8 @@
 /* file "SimplePartialHandler.h" */
 
+#ifndef SIMPLEPARTIALHANDLER_H
+#define SIMPLEPARTIALHANDLER_H
+
 #include "HoundRequester.h"
 #include "HoundPartialTranscriptJSON.h"
 
@@ -46,3 +49,5 @@ class SimplePartialHandler : public HoundRequester::PartialTranscriptHandler
       return server_says_stop;
     }
 };
+
+#endif /* SIMPLEPARTIALHANDLER_H */
