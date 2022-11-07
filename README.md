@@ -12,6 +12,7 @@ These are the prodcuts that I recommend and they are also the ones that I will t
 | Raspberry Pi 3 B+ | **THE HEART OF IT ALL!!** | <https://www.raspberrypi.org/products/raspberry-pi-3-model-b-plus/> | <https://www.digikey.com/product-detail/en/raspberry-pi/RASPBERRY-PI-3-MODEL-B-/1690-1025-ND/8571724> |
 | ReSpeaker 4-Mic Array | Microphone | <http://wiki.seeedstudio.com/ReSpeaker_4_Mic_Array_for_Raspberry_Pi/> | <https://www.digikey.com/product-detail/en/seeed-technology-co-ltd/103030216/1597-1549-ND/7650463> |
 | Pibow 3 B+ Coupé Flotilla | Case/Protection | <https://shop.pimoroni.com/products/pibow-coupe-for-raspberry-pi-3-b-plus?variant=2601078358026> | <https://www.digikey.com/product-detail/en/pimoroni-ltd/PIM343/PIM343-ND/8574328> |
+| Raspberry Pi Universal Power Supply | Power Supply | <https://www.raspberrypi.org/products/raspberry-pi-universal-power-supply/> | <https://www.digikey.com/product-detail/en/pimoroni-ltd/PIM343/PIM343-ND/8574328> |
 
 ## Getting started
 
