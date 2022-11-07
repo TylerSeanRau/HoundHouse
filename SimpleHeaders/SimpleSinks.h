@@ -10,12 +10,12 @@
 
 class SimpleSinkWithoutClosingSound : public ClientCapabilityRegistry::DataSink
 {
-  private:
+  protected:
     HoundConverser::VoiceRequest * voice_request;
     SimplePartialHandler * partial_handler;
     SimpleAudioVerifier verifier;
 
-   public:
+  public:
       SimpleSinkWithoutClosingSound(
          HoundConverser::VoiceRequest *voice_request,
          SimplePartialHandler * partial_handler
@@ -28,9 +28,10 @@ class SimpleSinkWithoutClosingSound : public ClientCapabilityRegistry::DataSink
 
       ~SimpleSinkWithoutClosingSound(void)  { }
 
-      size_t write_data(const uint8_t *data, size_t byte_count){
-        if((!(voice_request->more_ok()))||partial_handler->getServerSaysStop())
+      virtual size_t write_data(const uint8_t *data, size_t byte_count){
+        if((!(voice_request->more_ok()))||partial_handler->getServerSaysStop()){
           return 0;
+        }
 
         verifier.add_bytes(&(data[0]), byte_count);
         voice_request->add_audio(byte_count, data);
