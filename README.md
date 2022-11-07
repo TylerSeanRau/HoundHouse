@@ -66,5 +66,5 @@ These are the steps you'll need to take to get up and running with this reposito
 
         5. Clean up files that are no longer needed
 
-                rm -rf okhound-linux-x86_64/ okhound-nodejs-1.0.0-linux-x86_64.tar.gz
+                rm -rf ~/Downloads/okhound-linux-x86_64/ ~/Downloads/okhound-nodejs-1.0.0-linux-x86_64.tar.gz
 
