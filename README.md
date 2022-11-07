@@ -68,3 +68,26 @@ These are the steps you'll need to take to get up and running with this reposito
 
                 rm -rf ~/Downloads/okhound-linux-x86_64/ ~/Downloads/okhound-nodejs-1.0.0-linux-x86_64.tar.gz
 
+    * B. If you're running on a Raspberry Pi 3 B+ follow these instructions
+        1. First create a directory for these files in your local clone of this repository.
+
+                mkdir -p ~/Downloads/HoundHouse/OkHound/raspberrypi
+
+        1. Download the **"Ok Hound" Phrase Spotter for Node.js Raspberry Pi 2 & 3 (1.0.0)** from the Houndify [Javascript SDKs page](https://www.houndify.com/sdks#javascript)
+            * **DO NOT DOWNLOAD TO THE DIRECTORY YOU CREATED IN 3.B.1**
+
+        2. Extract the file you just downloaded
+
+                tar -xvf okhound-nodejs-1.0.0-pi2+3.tar.gz -C ~/Downloads
+
+        3. Extract the okhound library
+
+                tar -xvf ~/Downloads/okhound-pi2\&3/okhound-1.0.0.tgz -C ~/Downloads/okhound-pi2\&3/
+
+        4. Copy the needed files to the folder you created in step 3.B.1
+
+                cp ~/Downloads/okhound-pi2\&3/package/libPhraseSpotter.a ~/Downloads/okhound-pi2\&3/package/PhraseSpotterAPI.h ~/Downloads/okhound-pi2\&3/package/LICENSE* ~/Downloads/HoundHouse/OkHound/raspberrypi
+
+        5. Clean up files that are no longer needed
+
+                rm -rf ~/Downloads/okhound-pi2\&3/ ~/Downloads/okhound-nodejs-1.0.0-pi2+3.tar.gz
