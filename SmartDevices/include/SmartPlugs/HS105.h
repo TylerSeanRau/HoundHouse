@@ -1,3 +1,4 @@
+/* file "HS105.h" */
 
 #ifndef HS105_H
 #define HS105_H
