@@ -58,7 +58,7 @@ class SimpleRequestInfoPreparer : public RequestInfoPreparer
     {
     }
 
-    void prepare(RequestInfoJSON *request_info){
+    virtual void prepare(RequestInfoJSON *request_info){
       assert(request_info != NULL);
 #ifdef HOUNDHOUSEDEBUG
       std::cout<<"Beginning RequestInfoJSON preperations."<<std::endl;
