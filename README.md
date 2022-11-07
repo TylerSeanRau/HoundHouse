@@ -134,6 +134,21 @@ These are the steps you'll need to take to get up and running with this reposito
 
         * **_I strongly recommend you keep HoundifyExplorer and read its README. It's an invaluable debugging tool._**
 
+## Building the SmartDevice libray
+
+If you would like to take advantage of the smart devices libray that is included here then you'll need to build
+the library.
+
+To do so cd to `SmartDevices/lib` and run `make` this will build all the smart devices libraries and unify them
+into a single SmartDevices library located `SmartDevices/lib/libSmartDevices.a`. It should be straight forward
+to change makefiles to only use the specific subsection you'd like included in your project. (If space is a
+concern.)
+
+The simple demos make files should allow `-DWITHALLSMARTDEVICESUPPORT` to be added to `DEFINE_FEATURE_FLAGS` and
+then the appopriate -I/-L/-l flags will be added to the different steps. Note, the `-I` flag goes from the
+the `SmartDevices/include` directory. So you'll need to write `#include "*.h"` paths with the appopriate path.
+(Or add the desired `include` folder to the `-I`.)
+
 ## Simple Demos
 
 ### SimplePhraseSpotter
