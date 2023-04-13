@@ -24,7 +24,7 @@ These are the steps you'll need to take to get up and running with this reposito
 
 1. Clone this repository somewhere nice to work with
 
-        git clone https://github.com/Harrian/HoundHouse.git ~/Downloads/HoundHouse
+        git clone https://github.com/TylerSeanRau/HoundHouse.git ~/Downloads/HoundHouse
 
     * I use `~/Downloads/` throughout this README but feel free to use any directory you'd like, just be sure you always use the same substitute directory in its place.
 
